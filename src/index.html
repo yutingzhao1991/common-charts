@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Common Charts Demo</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../bower_components/select2/select2.css" />
+    <link rel="stylesheet" href="../bower_components/select2-bootstrap-css/select2-bootstrap.css" />
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/echarts/build/dist/echarts-all.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../bower_components/select2/select2.js"></script>
+    <script src="../bower_components/ejs/ejs.min.js"></script>
+    <script src="../bower_components/async/lib/async.js"></script>
+    <script src="../src/common-charts.js"></script>
+</head>
+<body>
+    <script type="text/ejs" id="template">
+        <div class="container">
+            <p>
+            <form class="form-inline">
+            <% for (var i = 0; i < selectors.length; i ++) { %>
+                <label for="inputEmail3" class="control-label"><%= selectors[i].name %>：</label>
+                <div class="form-group">
+                <%  if (selectors[i].type == 'select') { %>
+                    <select class="form-control selector" data-key=<%= selectors[i].key %> multiple="multiple">
+                        <% for (var j = 0; j < selectors[i].selector.length; j ++) { %>
+                        <option value="<%= selectors[i].selector[j].id %>"><%= selectors[i].selector[j].name %></option>
+                        <% } %>
+                    </select>
+                <%  } else { %>
+                    <input class="form-control selector" value="<%= selectors[i].default || '' %>" data-key=<%= selectors[i].key %> type="<%= selectors[i].type %>">
+                <%  } %>
+                </div>
+            <%} %>
+            </form>
+            <hr>
+            <label class="control-label">细分：</label>
+                <% for (var i = 0; i < selectors.length; i ++) { %>
+                <label class="radio-inline">
+                    <input type="checkbox" class="dimension" data-key="<%= selectors[i].key %>"><%= selectors[i].name %>
+                </label>
+                <%  } %>
+            </p>
+            <hr>
+            <p>
+                <button class="btn btn-default">查询</button>
+            </p>
+            <hr>
+            <div class="chart-container" style="width:960px;height:540px;border:1px solid #ccc;padding:30px;"></div>
+        </div>
+    </script>
+
+    <script src="app.demo.js"></script>
+</body>
+</html>
